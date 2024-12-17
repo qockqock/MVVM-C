@@ -14,10 +14,11 @@ class AppDIContainer {
     public let container = Container()
     
     private init () {
-        registerDependencies()
+        FirstViewregisterDependencies()
+        SecondViewregisterDependencies()
     }
     
-    private func registerDependencies() {
+    private func FirstViewregisterDependencies() {
         container.register(MainPageDataSource.self) { _ in
             MainPageDataSourceImpl()
         }
@@ -36,6 +37,16 @@ class AppDIContainer {
         
         container.register(MainPageVM.self) { resolver in
             MainPageVM(usecase: resolver.resolve(MainPageUsecase.self)!)
+        }
+    }
+    
+    private func SecondViewregisterDependencies() {
+        container.register(SecondPageBuilder.self) { resolver in
+            SecondPageBuilderImpl(container: self.container)
+        }
+        
+        container.register(SubPageProtocol.self) { _ in
+            SubPageVM()
         }
     }
     

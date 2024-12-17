@@ -24,8 +24,13 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
+        guard let mainPageBuilder = appDIContainer.container.resolve(MainPageBuilder.self) else {
+            fatalError("MainPageBuilder resolve 실패")
+        }
+        
         let mainPageCoordinator = MainPageCoordinator(
             navigationController: navigationController,
+            builder: mainPageBuilder,
             appDIContainer: appDIContainer
         )
         

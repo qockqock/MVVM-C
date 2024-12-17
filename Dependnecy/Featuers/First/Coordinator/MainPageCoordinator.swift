@@ -9,30 +9,29 @@ import UIKit
 
 class MainPageCoordinator: Coordinator {
     var navigationController: UINavigationController
-    let appDIContainer: AppDIContainer
+    private let builder: MainPageBuilder
+    private let appDIContainer: AppDIContainer
     
-    init(navigationController: UINavigationController, appDIContainer: AppDIContainer) {
+    init(navigationController: UINavigationController, builder: MainPageBuilder, appDIContainer: AppDIContainer) {
         self.navigationController = navigationController
+        self.builder = builder
         self.appDIContainer = appDIContainer
     }
     
     func start() {
-        let mainPageVC = buildMainPage()
+        let mainPageVC = builder.build()
         mainPageVC.coordinator = self
         navigationController.pushViewController(mainPageVC, animated: true)
     }
     
-    private func buildMainPage() -> MainPageVC {
-        guard let builder = appDIContainer.container.resolve(MainPageBuilder.self) else {
-            fatalError("MainPageBuilder resolve 실패")
-        }
-        return builder.build()
-    }
-    
     func nextPageMove() {
+        guard let builder = appDIContainer.container.resolve(SecondPageBuilder.self) else {
+            fatalError("SecondPageBuilder resolve 실패")
+        }
+
         let secondPageCoordinator = SecondPageCoordinator(
             navigationController: navigationController,
-            appDIContainer: appDIContainer
+            builder: builder
         )
         secondPageCoordinator.start()
     }

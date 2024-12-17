@@ -9,15 +9,21 @@ import UIKit
 
 class SecondPageCoordinator {
     let navigationController: UINavigationController
-    let appDIContainer: AppDIContainer
+    let builder: SecondPageBuilder
     
-    init(navigationController: UINavigationController, appDIContainer: AppDIContainer) {
+    init (navigationController: UINavigationController, builder: SecondPageBuilder) {
         self.navigationController = navigationController
-        self.appDIContainer = appDIContainer
+        self.builder = builder
     }
     
     func start() {
-        let vc = SubPageVC()
+        let subPageVC = builder.build()
+        subPageVC.coordinator = self
+        navigationController.pushViewController(subPageVC, animated: true)
+    }
+    
+    func thirdPageMove() {
+        let vc = ThirdPageVC()
         navigationController.pushViewController(vc, animated: true)
     }
 }

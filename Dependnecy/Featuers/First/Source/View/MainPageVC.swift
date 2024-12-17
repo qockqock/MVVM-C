@@ -18,7 +18,7 @@ class MainPageVC: UIViewController {
     
     private let nextPageButton: UIButton = {
        let button = UIButton()
-        button.setTitle("다음페이지 넘어가기", for: .normal)
+        button.setTitle("두 번째 페이지 넘어가기", for: .normal)
         button.setTitleColor(.darkGray, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         return button
