@@ -24,11 +24,9 @@ final class AppCoordinator: Coordinator {
     }
     
     func start() {
-        let mainPageBuilder = MainPageBuilderImpl(container: appDIContainer.container)
-        
         let mainPageCoordinator = MainPageCoordinator(
             navigationController: navigationController,
-            builder: mainPageBuilder
+            appDIContainer: appDIContainer
         )
         
         childCoordinator.append(mainPageCoordinator)

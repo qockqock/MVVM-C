@@ -21,31 +21,21 @@ class AppDIContainer {
         container.register(MainPageDataSource.self) { _ in
             MainPageDataSourceImpl()
         }
-        
+
         container.register(MainPageUsecase.self) { resolver in
             MainPageUsecaseImpl(mainPageDataSource: resolver.resolve(MainPageDataSource.self)!)
         }
         
-//        container.register(MainPageVM.self) { resolver in
-//            MainPageVM(usecase: resolver.resolve(MainPageUsecase.self)!)
-//        }
-        
-        container.register(MainPageVM.self) { resolver in
-            MainPageVM(usecase: resolver.resolve(MainPageUsecase.self)!)
+        container.register(MainPageBuilder.self) { resolver in
+            MainPageBuilderImpl(container: self.container)
         }
-
+        
         container.register(MainPageProtocol.self) { resolver in
             resolver.resolve(MainPageVM.self)! as MainPageProtocol
         }
         
-        container.register(MainPageBuilder.self) { _ in
-            MainPageBuilderImpl(container: self.container)
-        }
-        
-        container.register(MainPageCoordinator.self) { resolver in
-            let navigationController = UINavigationController()
-            let builder = resolver.resolve(MainPageBuilder.self)!
-            return MainPageCoordinator(navigationController: navigationController, builder: builder)
+        container.register(MainPageVM.self) { resolver in
+            MainPageVM(usecase: resolver.resolve(MainPageUsecase.self)!)
         }
     }
     
